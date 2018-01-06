@@ -23,16 +23,30 @@ const skipPlugins = [
 ]
 
 const args = minimist(process.argv.slice(2), {
-  boolean: ['npm-logs', 'verbose'],
+  boolean: ['npm-logs', 'verbose', 'help'],
+  string: ['fastify'],
   alias: {
     'npm-logs': 'N',
-    'verbose': 'V'
+    'verbose': 'V',
+    'fastify': 'F',
+    'help': 'H'
   },
   default: {
     'npm-logs': false,
-    'verbose': false
+    'verbose': false,
+    'fastify': 'git+https://github.com/fastify/fastify.git',
+    'help': false
   }
 })
+
+if (args.help) {
+  try {
+    console.log(chalk.cyan(fs.readFileSync(path.resolve(__dirname, 'help.txt'), 'utf8')))
+  } catch (err) {
+    console.log(chalk.red(err))
+  }
+  process.exit()
+}
 
 plugins.forEach(plugin => {
   if (skipPlugins.indexOf(plugin) > -1) return
@@ -126,7 +140,7 @@ function updatePluginFastify (pluginPath) {
 
   try {
     var packageJson = require(packageJsonPath)
-    packageJson.devDependencies.fastify = 'git+https://github.com/fastify/fastify.git'
+    packageJson.devDependencies.fastify = args['fastify']
   } catch (err) {
     console.log(chalk.red(`Cannot open or update package.json for plugin ${this.plugin}`), err)
     return false
