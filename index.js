@@ -8,8 +8,10 @@ const child = require('child_process')
 const minimist = require('minimist')
 const which = require('which').sync
 const q = require('workq')()
-const pino = require('pino')
-const pinoColada = require('pino-colada')()
+const chalk = require('chalk')
+
+// utils
+const Logger = require('./log')
 
 // Plugins to test
 const plugins = Object.keys(require('./package.json').dependencies)
@@ -21,22 +23,16 @@ const skipPlugins = [
 ]
 
 const args = minimist(process.argv.slice(2), {
-  string: ['log-level'],
-  boolean: ['npm-logs'],
+  boolean: ['npm-logs', 'verbose'],
   alias: {
-    'log-level': 'L',
-    'npm-logs': 'N'
+    'npm-logs': 'N',
+    'verbose': 'V'
   },
   default: {
-    'log-level': 'info',
-    'npm-logs': false
+    'npm-logs': false,
+    'verbose': false
   }
 })
-
-pinoColada.pipe(process.stdout)
-const log = pino({
-  level: args['log-level']
-}, pinoColada)
 
 plugins.forEach(plugin => {
   if (skipPlugins.indexOf(plugin) > -1) return
@@ -44,18 +40,19 @@ plugins.forEach(plugin => {
 })
 
 q.drain(done => {
-  log.info('finish')
+  console.log(chalk.green('Finish'))
   done()
 })
 
 function worker (q, done) {
-  log.info(`Started working on plugin ${this.plugin}`)
+  const log = Logger()
+  log.text(`Testing plugin ${this.plugin}`)
   // get the plugin path
   const pluginPath = path.resolve(__dirname, 'node_modules', this.plugin)
   // use master branch of fastify
   const success = updatePluginFastify.call(this, pluginPath)
   if (!success) {
-    log.info(`Cannot update plugin ${this.plugin}`)
+    log.warn(`Cannot update plugin ${this.plugin}`)
     done()
     return
   }
@@ -64,6 +61,7 @@ function worker (q, done) {
   const nodeBin = which('node', { path: process.env.PATH })
   const npmBin = which('npm', { path: process.env.PATH })
   // install plugin dependencies
+  log.text(`Installing dependencies ${this.plugin}`)
   installDeps(nodeBin, npmBin, pluginPath, err => {
     if (err) {
       log.warn(`${this.plugin} install deps failed!`)
@@ -71,11 +69,12 @@ function worker (q, done) {
     }
 
     // run plugin tests
+    log.text(`Running test ${this.plugin}`)
     runTest(nodeBin, npmBin, pluginPath, err => {
       if (err) {
-        log.warn(`${this.plugin} test not ok!`)
+        log.fail(`${this.plugin} test not ok!`)
       } else {
-        log.info(`${this.plugin} test ok!`)
+        log.succeed(`${this.plugin} test ok!`)
       }
       done()
     })
@@ -86,14 +85,14 @@ function installDeps (nodeBin, npmBin, pluginPath, cb) {
   const install = child.spawn(nodeBin, [npmBin, 'install'], { cwd: pluginPath })
 
   install.stdout.on('data', data => {
-    if (args['npm-logs']) {
-      log.debug(data.toString())
+    if (args['npm-logs'] && args['verbose']) {
+      console.log(chalk.yellow(data.toString()))
     }
   })
 
   install.stderr.on('data', (data) => {
-    if (args['npm-logs']) {
-      log.error(data.toString())
+    if (args['npm-logs'] && args['verbose']) {
+      console.log(chalk.red(data.toString()))
     }
   })
 
@@ -106,12 +105,14 @@ function runTest (nodeBin, npmBin, pluginPath, cb) {
   const test = child.spawn(nodeBin, [npmBin, 'test'], { cwd: pluginPath })
 
   test.stdout.on('data', data => {
-    log.debug(data.toString())
+    if (args['verbose']) {
+      console.log(chalk.yellow(data.toString()))
+    }
   })
 
   test.stderr.on('data', (data) => {
-    if (args['npm-logs']) {
-      log.error(data.toString())
+    if (args['npm-logs'] && args['verbose']) {
+      console.log(chalk.red(data.toString()))
     }
   })
 
@@ -127,14 +128,14 @@ function updatePluginFastify (pluginPath) {
     var packageJson = require(packageJsonPath)
     packageJson.devDependencies.fastify = 'git+https://github.com/fastify/fastify.git'
   } catch (err) {
-    log.debug(`Cannot open or update package.json for plugin ${this.plugin}`, err)
+    console.log(chalk.red(`Cannot open or update package.json for plugin ${this.plugin}`), err)
     return false
   }
 
   try {
     fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), 'utf8')
   } catch (err) {
-    log.debug(`Cannot overwrite package.json for plugin ${this.plugin}`, err)
+    console.log(chalk.red(`Cannot overwrite package.json for plugin ${this.plugin}`), err)
     return false
   }
 

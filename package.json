@@ -12,7 +12,7 @@
   },
   "keywords": [],
   "author": "Tomas Della Vedova - @delvedor (http://delved.org)",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/fastify/fastify-citgm/issues"
   },
@@ -45,8 +45,8 @@
     "under-pressure": "^0.1.0"
   },
   "devDependencies": {
-    "pino": "^4.10.3",
-    "pino-colada": "^1.4.2",
+    "chalk": "^2.3.0",
+    "ora": "^1.3.0",
     "which": "^1.3.0",
     "workq": "^1.2.0"
   }
