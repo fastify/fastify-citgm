@@ -1,0 +1,53 @@
+{
+  "name": "fastify-citgm",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fastify/fastify-citgm.git"
+  },
+  "keywords": [],
+  "author": "Tomas Della Vedova - @delvedor (http://delved.org)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fastify/fastify-citgm/issues"
+  },
+  "homepage": "https://github.com/fastify/fastify-citgm#readme",
+  "dependencies": {
+    "fastify-accepts": "^0.4.0",
+    "fastify-accepts-serializer": "^0.2.1",
+    "fastify-auth": "^0.1.0",
+    "fastify-bankai": "^0.3.1",
+    "fastify-bearer-auth": "^2.1.0",
+    "fastify-caching": "^2.0.0",
+    "fastify-compress": "^0.2.1",
+    "fastify-cookie": "^1.2.0",
+    "fastify-env": "^0.2.0",
+    "fastify-formbody": "^1.1.0",
+    "fastify-helmet": "^1.0.2",
+    "fastify-jwt": "^0.1.1",
+    "fastify-leveldb": "^0.2.0",
+    "fastify-mongodb": "^0.3.0",
+    "fastify-multipart": "^0.4.0",
+    "fastify-postgres": "^0.3.0",
+    "fastify-react": "^1.0.0",
+    "fastify-redis": "^0.3.0",
+    "fastify-register-timeout": "^0.1.0",
+    "fastify-static": "^0.5.0",
+    "fastify-swagger": "^0.2.0",
+    "fastify-url-data": "^1.1.0",
+    "fastify-websocket": "^0.1.0",
+    "point-of-view": "^0.5.0",
+    "under-pressure": "^0.1.0"
+  },
+  "devDependencies": {
+    "pino": "^4.10.3",
+    "pino-colada": "^1.4.2",
+    "which": "^1.3.0",
+    "workq": "^1.2.0"
+  }
+}
