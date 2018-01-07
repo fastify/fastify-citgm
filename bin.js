@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 'use strict'
 
 // Node core
@@ -23,17 +25,19 @@ const skipPlugins = [
 ]
 
 const args = minimist(process.argv.slice(2), {
-  boolean: ['npm-logs', 'verbose', 'help'],
+  boolean: ['npm-logs', 'verbose', 'log-errors', 'help'],
   string: ['fastify'],
   alias: {
     'npm-logs': 'N',
     'verbose': 'V',
+    'log-errors': 'L',
     'fastify': 'F',
     'help': 'H'
   },
   default: {
     'npm-logs': false,
     'verbose': false,
+    'log-errors': false,
     'fastify': 'git+https://github.com/fastify/fastify.git',
     'help': false
   }
@@ -117,8 +121,10 @@ function installDeps (nodeBin, npmBin, pluginPath, cb) {
 
 function runTest (nodeBin, npmBin, pluginPath, cb) {
   const test = child.spawn(nodeBin, [npmBin, 'test'], { cwd: pluginPath })
+  var log = ''
 
   test.stdout.on('data', data => {
+    log += data
     if (args['verbose']) {
       console.log(chalk.yellow(data.toString()))
     }
@@ -131,6 +137,9 @@ function runTest (nodeBin, npmBin, pluginPath, cb) {
   })
 
   test.on('close', code => {
+    if (args['log-errors'] && code > 0) {
+      console.log(chalk.yellow(log.toString()))
+    }
     cb(code > 0 ? new Error('Test failed') : null)
   })
 }

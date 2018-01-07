@@ -1,9 +1,11 @@
 fastify-citgm
 
---fastify -F      Pass a custom fastify version, default to master branch
+--fastify -F         Pass a custom fastify version, default to master branch
 
---verbose, -V     Enable verbose logs
+--verbose, -V        Enable verbose logs
 
---npm-logs, -N    Enable npm logs
+--log-errors, -L     Log output of the failing test
 
---help, -H        Print this message
+--npm-logs, -N       Enable npm logs
+
+--help, -H           Print this message
