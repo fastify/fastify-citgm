@@ -101,11 +101,10 @@ function worker (q, done) {
 
 function installDeps (nodeBin, npmBin, pluginPath, cb) {
   const install = child.spawn(nodeBin, [npmBin, 'install'], { cwd: pluginPath })
+  var log = ''
 
   install.stdout.on('data', data => {
-    if (args['npm-logs'] && args['verbose']) {
-      console.log(chalk.yellow(data.toString()))
-    }
+    log += data
   })
 
   install.stderr.on('data', (data) => {
@@ -115,6 +114,9 @@ function installDeps (nodeBin, npmBin, pluginPath, cb) {
   })
 
   install.on('close', code => {
+    if (args['npm-logs'] && args['verbose']) {
+      console.log(chalk.magenta(log.toString()))
+    }
     cb(code > 0 ? new Error('Install failed') : null)
   })
 }
@@ -125,9 +127,6 @@ function runTest (nodeBin, npmBin, pluginPath, cb) {
 
   test.stdout.on('data', data => {
     log += data
-    if (args['verbose']) {
-      console.log(chalk.yellow(data.toString()))
-    }
   })
 
   test.stderr.on('data', (data) => {
@@ -137,7 +136,7 @@ function runTest (nodeBin, npmBin, pluginPath, cb) {
   })
 
   test.on('close', code => {
-    if (args['log-errors'] && code > 0) {
+    if (args['verbose'] || (args['log-errors'] && code > 0)) {
       console.log(chalk.yellow(log.toString()))
     }
     cb(code > 0 ? new Error('Test failed') : null)
