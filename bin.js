@@ -21,7 +21,8 @@ const skipPlugins = [
   'fastify-mongodb',
   'fastify-redis',
   'fastify-postgres',
-  'fastify-leveldb'
+  'fastify-leveldb',
+  'fastify-elasticsearch'
 ]
 
 const args = minimist(process.argv.slice(2), {
@@ -38,7 +39,7 @@ const args = minimist(process.argv.slice(2), {
     'npm-logs': false,
     'verbose': false,
     'log-errors': false,
-    'fastify': 'git+https://github.com/fastify/fastify.git',
+    'fastify': 'fastify/fastify#next',
     'help': false
   }
 })
@@ -54,7 +55,7 @@ if (args.help) {
 
 plugins.forEach(plugin => {
   if (skipPlugins.indexOf(plugin) > -1) return
-  q.add(worker.bind({ plugin }))
+  q.add(worker, plugin)
 })
 
 q.drain(done => {
@@ -62,15 +63,15 @@ q.drain(done => {
   done()
 })
 
-function worker (q, done) {
+function worker (q, plugin, done) {
   const log = Logger()
-  log.text(`Testing plugin ${this.plugin}`)
+  log.text(`Testing plugin ${plugin}`)
   // get the plugin path
-  const pluginPath = path.resolve(__dirname, 'node_modules', this.plugin)
+  const pluginPath = path.join(__dirname, 'node_modules', plugin)
   // use master branch of fastify
   const success = updatePluginFastify.call(this, pluginPath)
   if (!success) {
-    log.warn(`Cannot update plugin ${this.plugin}`)
+    log.warn(`Cannot update plugin ${plugin}`)
     done()
     return
   }
@@ -79,20 +80,20 @@ function worker (q, done) {
   const nodeBin = which('node', { path: process.env.PATH })
   const npmBin = which('npm', { path: process.env.PATH })
   // install plugin dependencies
-  log.text(`Installing dependencies ${this.plugin}`)
+  log.text(`Installing dependencies ${plugin}`)
   installDeps(nodeBin, npmBin, pluginPath, err => {
     if (err) {
-      log.warn(`${this.plugin} install deps failed!`)
+      log.warn(`${plugin} install deps failed!`)
       return done()
     }
 
     // run plugin tests
-    log.text(`Running test ${this.plugin}`)
+    log.text(`Running test ${plugin}`)
     runTest(nodeBin, npmBin, pluginPath, err => {
       if (err) {
-        log.fail(`${this.plugin} test not ok!`)
+        log.fail(`${plugin} test not ok!`)
       } else {
-        log.succeed(`${this.plugin} test ok!`)
+        log.succeed(`${plugin} test ok!`)
       }
       done()
     })
@@ -144,7 +145,7 @@ function runTest (nodeBin, npmBin, pluginPath, cb) {
 }
 
 function updatePluginFastify (pluginPath) {
-  const packageJsonPath = path.resolve(pluginPath, 'package.json')
+  const packageJsonPath = path.join(pluginPath, 'package.json')
 
   try {
     var packageJson = require(packageJsonPath)
