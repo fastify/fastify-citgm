@@ -31,7 +31,7 @@ If you feel you can help in any way, be it with examples, extra testing, or new 
 
 ## Acknowledgements
 This project is kindly sponsored by:
-- [LetzDoIt](http://www.letzdoitapp.com/)
+- [LetzDoIt](https://www.letzdoitapp.com/)
 
 ## License
 **[MIT](https://github.com/fastify/fastify-citgm/blob/master/LICENSE)**
