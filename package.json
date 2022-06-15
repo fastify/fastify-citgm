@@ -1,7 +1,7 @@
 {
   "name": "fastify-citgm",
   "version": "0.1.0",
-  "description": "",
+  "description": "CITGM for Fastify",
   "main": "bin.js",
   "bin": {
     "fastify-citgm": "bin.js"
