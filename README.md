@@ -1,6 +1,7 @@
 # fastify-citgm
 
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/) [![Build Status](https://travis-ci.org/fastify/fastify-citgm.svg?branch=master)](https://travis-ci.org/fastify/fastify-citgm)
+![CI](https://github.com/fastify/fastify-citgm/workflows/CI/badge.svg)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
 
 Command line tool to run the test of every Fastify plugin with a specified version of Fastify (default master branch).
 
@@ -30,7 +31,7 @@ If you feel you can help in any way, be it with examples, extra testing, or new 
 
 ## Acknowledgements
 This project is kindly sponsored by:
-- [LetzDoIt](http://www.letzdoitapp.com/)
+- [LetzDoIt](https://www.letzdoitapp.com/)
 
 ## License
 **[MIT](https://github.com/fastify/fastify-citgm/blob/master/LICENSE)**

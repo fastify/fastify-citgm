@@ -18,11 +18,11 @@ const Logger = require('./log')
 // Plugins to test
 const plugins = Object.keys(require('./package.json').dependencies)
 const skipPlugins = [
-  'fastify-mongodb',
-  'fastify-redis',
-  'fastify-postgres',
-  'fastify-leveldb',
-  'fastify-elasticsearch'
+  '@fastify/mongodb',
+  '@fastify/redis',
+  '@fastify/postgres',
+  '@fastify/leveldb',
+  '@fastify/elasticsearch'
 ]
 
 const args = minimist(process.argv.slice(2), {
@@ -30,17 +30,17 @@ const args = minimist(process.argv.slice(2), {
   string: ['fastify'],
   alias: {
     'npm-logs': 'N',
-    'verbose': 'V',
+    verbose: 'V',
     'log-errors': 'L',
-    'fastify': 'F',
-    'help': 'H'
+    fastify: 'F',
+    help: 'H'
   },
   default: {
     'npm-logs': false,
-    'verbose': false,
+    verbose: false,
     'log-errors': false,
-    'fastify': 'fastify/fastify#next',
-    'help': false
+    fastify: 'fastify/fastify#next',
+    help: false
   }
 })
 
@@ -102,20 +102,20 @@ function worker (q, plugin, done) {
 
 function installDeps (nodeBin, npmBin, pluginPath, cb) {
   const install = child.spawn(nodeBin, [npmBin, 'install'], { cwd: pluginPath })
-  var log = ''
+  let log = ''
 
   install.stdout.on('data', data => {
     log += data
   })
 
   install.stderr.on('data', (data) => {
-    if (args['npm-logs'] && args['verbose']) {
+    if (args['npm-logs'] && args.verbose) {
       console.log(chalk.red(data.toString()))
     }
   })
 
   install.on('close', code => {
-    if (args['npm-logs'] && args['verbose']) {
+    if (args['npm-logs'] && args.verbose) {
       console.log(chalk.magenta(log.toString()))
     }
     cb(code > 0 ? new Error('Install failed') : null)
@@ -124,20 +124,20 @@ function installDeps (nodeBin, npmBin, pluginPath, cb) {
 
 function runTest (nodeBin, npmBin, pluginPath, cb) {
   const test = child.spawn(nodeBin, [npmBin, 'test'], { cwd: pluginPath })
-  var log = ''
+  let log = ''
 
   test.stdout.on('data', data => {
     log += data
   })
 
   test.stderr.on('data', (data) => {
-    if (args['npm-logs'] && args['verbose']) {
+    if (args['npm-logs'] && args.verbose) {
       console.log(chalk.red(data.toString()))
     }
   })
 
   test.on('close', code => {
-    if (args['verbose'] || (args['log-errors'] && code > 0)) {
+    if (args.verbose || (args['log-errors'] && code > 0)) {
       console.log(chalk.yellow(log.toString()))
     }
     cb(code > 0 ? new Error('Test failed') : null)
@@ -146,10 +146,10 @@ function runTest (nodeBin, npmBin, pluginPath, cb) {
 
 function updatePluginFastify (pluginPath) {
   const packageJsonPath = path.join(pluginPath, 'package.json')
+  const packageJson = require(packageJsonPath)
 
   try {
-    var packageJson = require(packageJsonPath)
-    packageJson.devDependencies.fastify = args['fastify']
+    packageJson.devDependencies.fastify = args.fastify
   } catch (err) {
     console.log(chalk.red(`Cannot open or update package.json for plugin ${this.plugin}`), err)
     return false
