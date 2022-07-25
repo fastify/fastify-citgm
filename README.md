@@ -8,7 +8,7 @@ Command line tool to run the test of every Fastify plugin with a specified versi
 ## Usage
 ```
 git clone https://github.com/fastify/fastify-citgm.git
-npm install
+npm i
 ./bin.js [args]
 ```
 
