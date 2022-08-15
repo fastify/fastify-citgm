@@ -49,7 +49,7 @@
     "@fastify/sensible": "^5.0.0",
     "@fastify/static": "^6.4.0",
     "@fastify/swagger": "^7.3.0",
-    "@fastify/under-pressure": "^7.0.0",
+    "@fastify/under-pressure": "^8.0.0",
     "@fastify/url-data": "^5.0.0",
     "@fastify/view": "^7.0.0",
     "@fastify/websocket": "^7.0.0"
