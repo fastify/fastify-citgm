@@ -23,7 +23,7 @@
   "dependencies": {
     "@fastify/accepts": "^4.0.0",
     "@fastify/accepts-serializer": "^5.0.0",
-    "@fastify/auth": "^3.0.1",
+    "@fastify/auth": "^4.0.0",
     "@fastify/basic-auth": "^4.0.0",
     "@fastify/bearer-auth": "^8.0.0",
     "@fastify/caching": "^8.0.1",
