@@ -52,7 +52,7 @@
     "@fastify/under-pressure": "^8.0.0",
     "@fastify/url-data": "^5.0.0",
     "@fastify/view": "^7.0.0",
-    "@fastify/websocket": "^7.0.0"
+    "@fastify/websocket": "^8.0.0"
   },
   "devDependencies": {
     "chalk": "^4.1.2",
