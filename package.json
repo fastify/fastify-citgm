@@ -42,7 +42,7 @@
     "@fastify/multipart": "^8.0.0",
     "@fastify/oauth2": "^7.0.0",
     "@fastify/postgres": "^5.0.0",
-    "@fastify/rate-limit": "^8.0.0",
+    "@fastify/rate-limit": "^9.0.0",
     "@fastify/redis": "^6.0.0",
     "@fastify/reply-from": "^9.0.0",
     "@fastify/routes": "^5.0.0",
