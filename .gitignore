@@ -148,6 +148,9 @@ yarn.lock
 .vscode
 .idea
 
+#tap files
+.tap/
+
 # generated code
 examples/typescript-server.js
 test/types/index.js
