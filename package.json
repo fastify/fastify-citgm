@@ -48,7 +48,7 @@
     "@fastify/routes": "^5.0.0",
     "@fastify/sensible": "^5.0.0",
     "@fastify/static": "^7.0.0",
-    "@fastify/swagger": "^8.0.0",
+    "@fastify/swagger": "^9.0.0",
     "@fastify/under-pressure": "^8.0.0",
     "@fastify/url-data": "^5.0.0",
     "@fastify/view": "^9.0.0",
