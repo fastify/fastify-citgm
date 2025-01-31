@@ -3,7 +3,7 @@
 ![CI](https://github.com/fastify/fastify-citgm/workflows/CI/badge.svg)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://standardjs.com/)
 
-Command line tool to run the test of every Fastify plugin with a specified version of Fastify (default master branch).
+Command line tool to run the test of every Fastify plugin with a specified version of Fastify (default main branch).
 
 ## Usage
 ```
@@ -14,7 +14,7 @@ npm i
 
 ### Arguments
 ```
---fastify -F         Pass a custom fastify version, default to master branch
+--fastify -F         Pass a custom fastify version, default to main branch
 
 --verbose, -V        Enable verbose logs
 
@@ -34,4 +34,4 @@ This project is kindly sponsored by:
 - [LetzDoIt](https://www.letzdoitapp.com/)
 
 ## License
-**[MIT](https://github.com/fastify/fastify-citgm/blob/master/LICENSE)**
+**[MIT](https://github.com/fastify/fastify-citgm/blob/main/LICENSE)**

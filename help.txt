@@ -1,6 +1,6 @@
 fastify-citgm
 
---fastify -F         Pass a custom fastify version, default to master branch
+--fastify -F         Pass a custom fastify version, default to main branch
 
 --verbose, -V        Enable verbose logs
 

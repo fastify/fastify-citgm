@@ -68,7 +68,7 @@ function worker (q, plugin, done) {
   log.text(`Testing plugin ${plugin}`)
   // get the plugin path
   const pluginPath = path.join(__dirname, 'node_modules', plugin)
-  // use master branch of fastify
+  // use main branch of fastify
   const success = updatePluginFastify.call(this, pluginPath)
   if (!success) {
     log.warn(`Cannot update plugin ${plugin}`)
