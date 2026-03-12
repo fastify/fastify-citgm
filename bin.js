@@ -3,9 +3,9 @@
 'use strict'
 
 // Node core
-const fs = require('fs')
-const path = require('path')
-const child = require('child_process')
+const fs = require('node:fs')
+const path = require('node:path')
+const child = require('node:child_process')
 // npm
 const minimist = require('minimist')
 const which = require('which').sync
