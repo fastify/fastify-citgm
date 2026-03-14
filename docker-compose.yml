@@ -1,3 +1,5 @@
+# This Docker Compose file is used to configure the services required for Fastify's CITGM tests. If you modify the images, be sure to update the ones in the workflows repository as well: https://github.com/fastify/workflows/tree/main/.github/workflows
+
 name: fastify-citgm
 
 services:
