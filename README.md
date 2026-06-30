@@ -30,8 +30,9 @@ If you feel you can help in any way, be it with examples, extra testing, or new 
 
 
 ## Acknowledgements
-This project is kindly sponsored by:
-- [LetzDoIt](https://www.letzdoitapp.com/)
+
+Past sponsors:
+- LetzDoIt
 
 ## License
 **[MIT](https://github.com/fastify/fastify-citgm/blob/main/LICENSE)**
